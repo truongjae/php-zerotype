@@ -20,23 +20,23 @@
 	<div id="header">
 		<div>
 			<div class="logo">
-				<a href="index.html">Zero Type</a>
+				<a href="index.php">Zero Type</a>
 			</div>
 			<ul id="navigation">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="index.php">Home</a>
 				</li>
 				<li>
-					<a href="features.html">Features</a>
+					<a href="features.php">Features</a>
 				</li>
 				<li>
-					<a href="news.html">News</a>
+					<a href="news.php">News</a>
 				</li>
 				<li>
-					<a href="about.html">About</a>
+					<a href="about.php">About</a>
 				</li>
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="contact.php">Contact</a>
 				</li>
 				<li>
 					<a href="login.php">Login</a>
