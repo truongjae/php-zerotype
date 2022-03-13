@@ -10,6 +10,7 @@ $checkCookie = $query->loginWithCookie();
 	<meta charset="UTF-8">
 	<title>Contact - Zerotype Website Template</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 <body>
 	<div id="header">
@@ -72,14 +73,8 @@ $checkCookie = $query->loginWithCookie();
 			if(isset($_POST['txtSub'])){
                 if(check()){
 					$run = $query->login($_POST['txtUsername'],$_POST['txtPassword']);
-                    if($run->num_rows > 0){
-						while($row = $run->fetch_assoc()) {
-							setcookie("username",$row['username'],time()+3600);
-							setcookie("password",$row['password'],time()+3600);
-							break;
-						}
+                    if($run)
                         header('Location: index.php');
-                    }
                     else
                         echo '<script>alert("Tài khoản mật khẩu không chính xác")</script>';
                 }

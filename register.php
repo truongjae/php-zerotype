@@ -4,7 +4,7 @@
 	$query = new AbstractQuery();
 	$upload =  new UploadFile();
 	$checkCookie = $query->loginWithCookie();
-	if($checkCookie == null){
+	if($checkCookie != null){
 		header('Location: login.php');
 	}
 ?>
@@ -14,6 +14,7 @@
 	<meta charset="UTF-8">
 	<title>Register - Zerotype Website Template</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" href="css/style2.css" type="text/css">
 	
 </head>
 <body>

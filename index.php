@@ -5,8 +5,38 @@
 	<meta charset="UTF-8">
 	<title>Zerotype Website Template</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 <body>
+	<style>
+		.avatar{
+			width: 100%;
+			height: 300px;
+		}
+		.avatar div{
+			width: 30%;
+			float: left;
+		}
+		.avatar form{
+			width: 70%;
+			float: right;
+		}
+		#btn-choice-avatar{
+			border: none;
+			height: 35px;
+			font-size: 15px;
+			
+		}
+		#btn-update-avatar{
+			border: none;
+			width: 150px;
+			height: 35px;
+			border-radius: 20px;
+			font-size: 17px;
+			margin-top: 20px;
+		}
+		
+	</style>
 	<div id="header">
 		<div>
 			<div class="logo">
@@ -54,30 +84,37 @@
 		</div>
 	</div>
 	<div id="contents">
-	<form method="post" enctype="multipart/form-data">
-	<input type="file" name="file">
-	<input type="submit" value = "update avatar" name="submit">
+	<div class="avatar">
+		<div>
+			<?php
+			global $query;
+			$run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+			if($run->num_rows > 0){
+				while($row = $run->fetch_assoc()) {
+					echo "<img src=".$row['avatar']." width='200' style='border-radius:20px;'>";
+					break;
+				}
+			}
+			if(isset($_POST['submit'])){
+				include("uploadfile.php");
+				$upload = new UploadFile();
+				$avatar = $upload->upload();
+				if($avatar != null){
+					$query->updateAvatar($avatar,$_COOKIE['username'],$_COOKIE['password']);
+					header('Location: index.php');
+				}
+			}	
+			?>
+		</div>
+		<form method="post" enctype="multipart/form-data">
+		<p>Update Avatar deeptry</p>
+		<input id="btn-choice-avatar" type="file" name="file">
+		<br>
+		<input id="btn-update-avatar" type="submit" value = "update avatar" name="submit">
 	</form>
-	<?php
-	global $query;
-	$run = $query->getAvatar($_COOKIE['username']);
-	if($run->num_rows > 0){
-		while($row = $run->fetch_assoc()) {
-			echo "<img src=".$row['avatar']." width='200' style='border-radius:20px;'>";
-			break;
-		}
-	}
-	if(isset($_POST['submit'])){
-		include("uploadfile.php");
-		$upload = new UploadFile();
-		$avatar = $upload->upload();
-		if($avatar != null){
-			$query->updateAvatar($avatar,$_COOKIE['username']);
-			header('Location: index.php');
-		}
-		
-	}
-	?>
+	</div>
+	
+
 		<div id="tagline" class="clearfix">
 		
 			<h1>Design With Simplicity.</h1>

@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>News - Zerotype Website Template</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 <body>
 	<div id="header">
