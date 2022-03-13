@@ -1,6 +1,12 @@
 <?php
 include('connect.php');
 class AbstractQuery{
+    public function INSERT($name,$email,$subject,$note){
+        global $conn;
+        $sql="insert into tb_contact(name,email,subject,note) values ('$name','$email','$subject','$note')";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
     public function register($email,$username,$password,$fullname,$gender,$favorite,$avatar){
         global $conn;
         $checkUsernameAndEmail = true;
