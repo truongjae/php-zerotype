@@ -4,7 +4,7 @@
 	$query = new AbstractQuery();
 	$upload =  new UploadFile();
 	$checkCookie = $query->loginWithCookie();
-	if($checkCookie != null){
+	if($checkCookie == null){
 		header('Location: login.php');
 	}
 ?>
