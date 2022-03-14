@@ -56,7 +56,7 @@
 							'<li>
 							<div class="date">
 								<p>
-									<span>'.$date[2].'</span>
+									<span>'.date_format(date_create($row['date']),'d').'</span>
 									'.$date[1].'-'.$date[0].'
 								</p>
 							</div>

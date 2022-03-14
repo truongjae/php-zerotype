@@ -46,7 +46,7 @@
 		
 			<?php
 					$query = new AbstractQuery();
-					$run = $query->getNewsById($query->getValueParameters('id'));
+					$run = $query->getNewsById($_GET['id']);
 					if($run->num_rows>0){
 						while($row = $run->fetch_assoc()) {
 							$date = explode('-', $row['date']);
