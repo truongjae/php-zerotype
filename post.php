@@ -68,7 +68,7 @@
 			<p>
 				Wix also offers a ton of free design elements right inside the editor, like images, icons, galleries, videos and large selection of Add Ons and social feeds. Publish your Free Website in minutes! You can remove any link to our website from this website template, you're free to use this website template without linking back to us.
 			</p>
-			<span><a href="post.html" class="more">Back to News</a></span>
+			<span><a href="post.php" class="more">Back to News</a></span>
 		</div>
 	</div>
 	<div id="footer">

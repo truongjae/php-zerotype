@@ -20,7 +20,7 @@ class AbstractQuery{
     public function register($email,$username,$password,$fullname,$gender,$favorite,$avatar){
         global $conn;
         if($this->checkExist("email",$email) && $this->checkExist("username",$username)){
-            $sql="insert into user(email,username,password,fullname,gender,favorite,avatar) values ('$email','$username','".md5($password)."','$fullname','$gender','$favorite','$avatar')";
+            $sql="insert into user(email,username,password,fullname,gender,favorite,avatar,role) values ('$email','$username','".md5($password)."','$fullname','$gender','$favorite','$avatar','USER')";
             $run = mysqli_query($conn,$sql);
             return $run;
         }
@@ -47,7 +47,6 @@ class AbstractQuery{
         $run = mysqli_query($conn,$sql);
         return $run;
     }
-
     public function loginWithCookie(){
         if(isset($_COOKIE['username']) && isset($_COOKIE['password'])) {	
             $username= $_COOKIE['username'];

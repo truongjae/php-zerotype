@@ -52,6 +52,7 @@ $checkCookie = $query->loginWithCookie();
 				<br><br>
 				<input type="submit" name="txtSub" value="Login"/>
 			</form>
+			<a href="#">Forgot password</a>
 			<?php
 			function check(){
                 $check = true;
@@ -73,8 +74,17 @@ $checkCookie = $query->loginWithCookie();
 			if(isset($_POST['txtSub'])){
                 if(check()){
 					$run = $query->login($_POST['txtUsername'],$_POST['txtPassword']);
-                    if($run)
-                        header('Location: index.php');
+                    if($run){
+						$role= $query->loginGetValue($_POST['txtUsername'],md5($_POST['txtPassword']));
+						while($row = $role->fetch_assoc()) {
+							if($row['role']=="USER")
+								header('Location: index.php');
+							else
+								header('Location: admin.php');
+							break;
+						}
+					}
+                        
                     else
                         echo '<script>alert("Tài khoản mật khẩu không chính xác")</script>';
                 }
