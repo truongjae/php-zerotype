@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
@@ -45,7 +46,27 @@
 		<div class="main">
 			<h1>News</h1>
 			<ul class="news">
-				<li>
+				<?php
+					$query = new AbstractQuery();
+					$run = $query->getAllNews();
+					if($run){
+						while($row = $run->fetch_assoc()) {
+							$date = explode('-', $row['date']);
+							echo 
+							'<li>
+							<div class="date">
+								<p>
+									<span>'.$date[2].'</span>
+									'.$date[1].'-'.$date[0].'
+								</p>
+							</div>
+							<h2>'.$row['title'].'<span>'.$query->getFullNameFromUsername($row['author']).'</span></h2>
+							<p>'.$row['short_content'].'<span><a href="post.php?id='.$row['id'].'" class="more">Read More</a></span>'.'</p>
+							</li>';
+						}
+					}
+				?>
+				<!-- <li>
 					<div class="date">
 						<p>
 							<span>03</span>
@@ -80,7 +101,7 @@
 					<p>
 						You can replace all this text with your own text. Want an easier solution for a Free Website? Head straight to Wix and immediately start customizing your website! Wix is an online website builder with a simple drag &amp; drop interface, meaning you do the work online and instantly publish to the web. All Wix templates are fully customizable and free to use. Just pick one you like, click Edit, and enter the online editor. <span><a href="post.php" class="more">Read More</a></span>
 					</p>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 		<div class="sidebar">

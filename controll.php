@@ -62,5 +62,47 @@ class AbstractQuery{
         $run = mysqli_query($conn,$sql);
         return $run;
     }
+    public function getAllNews(){
+        global $conn;
+        $sql="select * from news";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getNewsById($id){
+        global $conn;
+        $sql="select * from news where id='$id'";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getValueParameters($key){
+        try {
+            $url_components = parse_url($this->getUrl());
+            parse_str($url_components['query'], $params);
+            $value = $params[$key];
+            return $value;
+        } catch (\Throwable $th) {
+            return null;
+        }
+        
+    }
+    public function getFullNameFromUsername($username){
+        global $conn;
+        $sql="select fullname from user where username='$username'";
+        $run = mysqli_query($conn,$sql);
+        while($row = $run->fetch_assoc()) {
+            return $row['fullname'];
+        }
+        return null;
+    }
+    public function getUrl(){
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+            $url = "https://";   
+        else  
+            $url = "http://";    
+        $url.= $_SERVER['HTTP_HOST'];   
+        $url.= $_SERVER['REQUEST_URI'];    
+            
+        return $url;
+    }
 }
 ?>

@@ -43,32 +43,29 @@
 	</div>
 	<div id="contents">
 		<div class="post">
-			<div class="date">
-				<p>
-					<span>03</span>
-					2023
-				</p>
-			</div>
-			<h1>Updates: More Features Released <span class="author">Brian Ferry March 2012</span></h1>
-			<p>
-				You can replace all this text with your own text. Want an easier solution for a Free Website? Head straight to Wix and immediately start customizing your website! Wix is an online website builder with a simple drag & drop interface, meaning you do the work online and instantly publish to the web. All Wix templates are fully customizable and free to use. Just pick one you like, click Edit, and enter the online editor.
-			</p>
-			<p>
-				Change, add, and remove items as you like. If you're having problems editing this website template, then don't hesitate to ask for help on the Forums.
-			</p>
-			<p>
-				Wix also offers a ton of free design elements right inside the editor, like images, icons, galleries, videos and large selection of Add Ons and social feeds. Publish your Free Website in minutes! You can remove any link to our website from this website template, you're free to use this website template without linking back to us.
-			</p>
-			<p>
-				You can replace all this text with your own text. Want an easier solution for a Free Website? Head straight to Wix and immediately start customizing your website! Wix is an online website builder with a simple drag & drop interface, meaning you do the work online and instantly publish to the web. All Wix templates are fully customizable and free to use. Just pick one you like, click Edit, and enter the online editor.
-			</p>
-			<p>
-				Change, add, and remove items as you like. If you're having problems editing this website template, then don't hesitate to ask for help on the Forums.
-			</p>
-			<p>
-				Wix also offers a ton of free design elements right inside the editor, like images, icons, galleries, videos and large selection of Add Ons and social feeds. Publish your Free Website in minutes! You can remove any link to our website from this website template, you're free to use this website template without linking back to us.
-			</p>
-			<span><a href="post.php" class="more">Back to News</a></span>
+		
+			<?php
+					$query = new AbstractQuery();
+					$run = $query->getNewsById($query->getValueParameters('id'));
+					if($run->num_rows>0){
+						while($row = $run->fetch_assoc()) {
+							$date = explode('-', $row['date']);
+							echo 
+							"<div class='date'>
+							<p>
+								<span>".$date[2]."</span>
+								".$date[1]."-".$date[0]."
+							</p>
+							</div>
+							<h1>".$row['title']."<span class='author'>".$query->getFullNameFromUsername($row['author'])."</span></h1>
+							<p>".$row['long_content']."</p>
+							<span><a href='news.php' class='more'>Back to News</a></span>";
+						}
+					
+					}
+					else
+						echo "<h1>Bài viết đéo tồn tại!</h1> <span><a href='news.php' class='more'>Back to News</a></span>";
+				?>
 		</div>
 	</div>
 	<div id="footer">
