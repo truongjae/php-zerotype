@@ -58,6 +58,7 @@
 							</p>
 							</div>
 							<h1>".$row['title']."<span class='author'>".$query->getFullNameFromUsername($row['author'])."</span></h1>
+							<p>".$row['short_content']."</p>
 							<p>".$row['long_content']."</p>
 							<span><a href='news.php' class='more'>Back to News</a></span>";
 						}

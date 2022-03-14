@@ -83,6 +83,12 @@ class AbstractQuery{
         }
         return null;
     }
+    public function getNewsByTop3(){
+        global $conn;
+        $sql="select * from news order by date desc limit 0,3";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
 
 }
 ?>
