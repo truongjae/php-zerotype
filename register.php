@@ -140,7 +140,7 @@
 	<div id="footer">
 		<div class="clearfix">
 			<div id="connect">
-				<a href="https://www.facebook.com/HoangDuc1st" target="_blank" class="facebook"></a><a href="#" target="_blank" class="googleplus"></a><a href="#" target="_blank" class="twitter"></a><a href="#" target="_blank" class="tumbler"></a>
+				<a href="https://www.facebook.com/" target="_blank" class="facebook"></a><a href="#" target="_blank" class="googleplus"></a><a href="#" target="_blank" class="twitter"></a><a href="#" target="_blank" class="tumbler"></a>
 			</div>
 			<p>
 				© 2022 Hoang Duc Oc cho. All Rights Reserved.

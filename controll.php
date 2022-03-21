@@ -1,5 +1,6 @@
 <?php
 include('connect.php');
+include('sendemail.php');
 class AbstractQuery{
     public function INSERT($name,$email,$subject,$note){
         global $conn;
@@ -22,6 +23,8 @@ class AbstractQuery{
         if($this->checkExist("email",$email) && $this->checkExist("username",$username)){
             $sql="insert into user(email,username,password,fullname,gender,favorite,avatar,role) values ('$email','$username','".md5($password)."','$fullname','$gender','$favorite','$avatar','USER')";
             $run = mysqli_query($conn,$sql);
+            $sendMail = new SendEMail();
+            $sendMail->send($username,$email);
             return $run;
         }
         return null;
