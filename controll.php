@@ -92,6 +92,25 @@ class AbstractQuery{
         $run = mysqli_query($conn,$sql);
         return $run;
     }
+    public function deletePostById($id){
+        global $conn;
+        $sql="delete from news where id = $id";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function updatePostById($id,$author,$title,$date,$short_content,$long_content){
+        global $conn;
+        $sql="update news set author='$author', title='$title', date='$date', short_content='$short_content', long_content='$long_content' where id = $id";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+
+    public function addPost($author,$title,$date,$short_content,$long_content){
+        global $conn;
+        $sql= "insert into news(author,title,date,short_content,long_content) values('$author','$title','$date','$short_content','$long_content')";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
 
 }
 ?>

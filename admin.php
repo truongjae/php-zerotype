@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Zerotype Website Template</title>
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css">
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
@@ -14,11 +15,11 @@
 			height: 300px;
 		}
 		.avatar div{
-			width: 30%;
+			width: 100%;
 			float: left;
 		}
 		.avatar form{
-			width: 70%;
+			width: 0%;
 			float: right;
 		}
 		#btn-choice-avatar{
@@ -28,14 +29,36 @@
 			
 		}
 		#btn-update-avatar{
-			border: none;
+			/* border: none; */
 			width: 150px;
 			height: 35px;
 			border-radius: 20px;
 			font-size: 17px;
 			margin-top: 20px;
 		}
-		
+		table, th, td {
+			border:1px solid black;
+		}
+		#post{
+			border-collapse: collapse;
+			width: 90%;
+			margin: 0 auto;
+		}
+		#post td, #post th{
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+		#post tr:nth-child(even){
+			background-color: #f2f2f2; 
+		}
+		#post tr:hover{
+			background-color: #ddd;
+		}
+		#post th{
+			text-align: left;
+			background-color: grey;
+			color: white;
+		}
 	</style>
 	<div id="header">
 		<div>
@@ -44,7 +67,7 @@
 			</div>
 			<ul id="navigation">
 				<li class="active">
-					<a href="index.php">Home</a>
+					<a href="admin.php">Home</a>
 				</li>
 				<li>
 					<a href="features.php">Features</a>
@@ -67,82 +90,73 @@
 				<?php
 				include("filterwithcookie.php");
 				?>
+				<li>
+				<div class="avatar">
+					<div>
+						<!-- <h1>TRANG ADMIN</h1> -->
+						<?php
+						global $query;
+						$run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+						if($run->num_rows > 0){
+							while($row = $run->fetch_assoc()) {
+								echo "<img src=".$row['avatar']." width='100' style='border-radius:20px;'>";
+								break;
+							}
+						}
+						if(isset($_POST['submit'])){
+							include("uploadfile.php");
+							$upload = new UploadFile();
+							$avatar = $upload->upload();
+							if($avatar != null){
+								$query->updateAvatar($avatar,$_COOKIE['username'],$_COOKIE['password']);
+								header('Location: admin.php');
+							}
+						}	
+						?>
+					</div>
+					<form method="post" enctype="multipart/form-data">
+					<input id="btn-choice-avatar" type="file" name="file">
+					<input id="btn-update-avatar" type="submit" value = "update avatar" name="submit">
+					</form>
+				</div>
+				</li>
 				
 			</ul>
 		</div>
 	</div>
-	<div id="adbox">
-		<div class="clearfix">
-			<img src="images/box.png" alt="Img" height="342" width="368">
-			<div>
-				<h1>Ideas?</h1>
-				<h2>That's what we live for.</h2>
-				<p>
-					Wix is an online website builder with a simple drag & drop interface, meaning you do the work online and instantly publish to the web. <span><a href="index.html" class="btn">Try It Now!</a><b>Don’t worry it’s for free</b></span>
-				</p>
-			</div>
-		</div>
-	</div>
-	<div id="contents">
-	<div class="avatar">
-		<div>
-            <h1>TRANG ADMIN</h1>
-			<?php
-			global $query;
-			$run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
-			if($run->num_rows > 0){
-				while($row = $run->fetch_assoc()) {
-					echo "<img src=".$row['avatar']." width='200' style='border-radius:20px;'>";
-					break;
-				}
-			}
-			if(isset($_POST['submit'])){
-				include("uploadfile.php");
-				$upload = new UploadFile();
-				$avatar = $upload->upload();
-				if($avatar != null){
-					$query->updateAvatar($avatar,$_COOKIE['username'],$_COOKIE['password']);
-					header('Location: index.php');
-				}
-			}	
-			?>
-		</div>
-		<form method="post" enctype="multipart/form-data">
-		<p>Update Avatar deeptry</p>
-		<input id="btn-choice-avatar" type="file" name="file">
-		<br>
-		<input id="btn-update-avatar" type="submit" value = "update avatar" name="submit">
-	</form>
-	</div>
-	
-
-		<div id="tagline" class="clearfix">
-		
-			<h1>Design With Simplicity.</h1>
-			<div>
-				<p>
-					You can replace all this text with your own text. Want an easier solution for a Free Website?
-				</p>
-				<p>
-					Head straight to Wix and immediately start customizing your website!
-				</p>
-				<p>
-					Wix is an online website builder with a simple drag & drop interface, meaning you do the work online and instantly publish to the web.
-				</p>
-			</div>
-			<div>
-				<p>
-					You can replace all this text with your own text. Want an easier solution for a Free Website?
-				</p>
-				<p>
-					Head straight to Wix and immediately start customizing your website!
-				</p>
-				<p>
-					Wix is an online website builder with a simple drag & drop interface, meaning you do the work online and instantly publish to the web.
-				</p>
-			</div>
-		</div>
-	</div>
+	<!-- <div id="contents"> -->
+		<!-- <div id="tagline" class="clearfix"> -->
+		<center><h1>Add Post <a href="./post/addPost.php"><i class="fas fa-plus"></i></a></h1></center>
+			<table id="post">
+					<tr>
+						<th>STT</th>
+						<th>Author</th>
+						<th>Title</th>
+						<th>Date</th>
+						<th>Short content</th>
+						<th>Full content</th>
+						<th>Update Post</th>
+						<th>Delete Post</th>
+					</tr>
+					<?php
+						global $query;
+						$posts = $query->getAllNews();
+						foreach($posts as $post){
+					?>
+					<tr>
+						<td><?php echo $post['id'] ?></td>
+						<td><?php echo $post['author'] ?></td>
+						<td><?php echo $post['title'] ?></td>
+						<td><?php echo $post['date'] ?></td>
+						<td><?php echo $post['short_content'] ?></td>
+						<td><?php echo $post['long_content'] ?></td>
+						<td><a href="./post/updatePost.php?id=<?php echo $post['id'] ?>" ><i class="fas fa-edit"></i></a></td>
+						<td><a href="./post/deletePost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
+					</tr>
+					<?php } ?>
+			</table>
+		<!-- </div> -->
+	<!-- </div> -->
 	<div id="footer">
 		<div class="clearfix">
 			<div id="connect">
