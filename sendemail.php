@@ -9,27 +9,27 @@
    use PHPMailer\PHPMailer\Exception;
 
    class SendEMail{
-       public function send($username,$email){
-        $password=""; // config password gmail vào nhé
+       public function send($username,$email,$title,$content){
+        $account = "truongsendmail@gmail.com";
+        $password="truongjae27";
         $mail = new PHPMailer(true);
         try{
             $mail->SMTPDebug = 0;
             $mail->isSMTP();
             $mail->Host="smtp.gmail.com";
             $mail->SMTPAuth = true;
-            $mail->Username = "truongjae@gmail.com"; // config tk nữa
+            $mail->Username = $account;
             $mail->Password =$password;
             $mail->SMTPSecure = "tls";
             $mail->Port = 587;
             $mail->CharSet = "UTF-8";
-            $mail->setFrom("truongjae@gmail.com"); // config tk nữa
-            $mail->addAddress($email,"Đăng ký tài khoản thành công");
+            $mail->setFrom($account); 
+            $mail->addAddress($email,$title);
             $mail->isHTML(true);
-            $mail->Subject= "Đăng ký tài khoản thành công";
-            $mail->Body = "Chào ".$username."! Tài khoản của mày đã được đăng ký thành công";
+            $mail->Subject= $title;
+            $mail->Body = "Chào ".$username."! $content";
             // $mail->AltBody = "rat ngoan";
             $mail->send();
-            echo "message has been sent";
         }
         catch (Exception $e){
             echo "message could not be sent. Mailer Error: ", $mail->ErrorInfo; 

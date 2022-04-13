@@ -24,11 +24,25 @@ class AbstractQuery{
             $sql="insert into user(email,username,password,fullname,gender,favorite,avatar,role) values ('$email','$username','".md5($password)."','$fullname','$gender','$favorite','$avatar','USER')";
             $run = mysqli_query($conn,$sql);
             $sendMail = new SendEMail();
-            $sendMail->send($username,$email);
+            $sendMail->send($username,$email,"Đăng ký tài khoản thành công","Tài khoản của mày đã được đăng ký thành công");
             return $run;
         }
         return null;
-        
+    }
+    public function updateProfile($fullname,$email,$newPassword,$gender,$favorite,$username,$oldPassword){
+        global $conn;
+        $checkOldEmail = $this->loginGetValue($username,$oldPassword);
+        $result = $checkOldEmail->fetch_assoc();
+        if($result['email'] != $email)
+            if(!$this->checkExist("email",$email)) return null;
+
+        $sql="update user set email = '$email', fullname='$fullname', password='".md5($newPassword)."', gender='$gender', favorite='$favorite' where username='$username' and password='$oldPassword';";
+        $run = mysqli_query($conn,$sql);
+        if($result['email'] != $email){
+            $sendMail = new SendEMail();
+            $sendMail->send($username,$email,"Cập nhật email thành công","Tài khoản của mày đã được cập nhật email thành công");
+        }
+        return $run;
     }
     public function login($username,$password){
         global $conn;
@@ -67,13 +81,35 @@ class AbstractQuery{
     }
     public function getAllNews(){
         global $conn;
-        $sql="select * from news";
+        $sql="select * from news where status=1";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getAllNewsByPageAble($index,$offset){
+        global $conn;
+        $sql="select * from news where status=1 limit $index,$offset";
         $run = mysqli_query($conn,$sql);
         return $run;
     }
     public function getNewsById($id){
         global $conn;
-        $sql="select * from news where id='$id'";
+        $sql="select n.*,u.fullname from news n, user u where n.author=u.id and n.id='$id' and n.status=1";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getMyNewsById($id){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql="select n.*,u.fullname from news n, user u where n.author=u.id and n.id='$id' and n.author=".$result['id'];
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getNewsByAuthor(){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql="select n.*,u.fullname from news n, user u where n.author=u.id and n.author=".$result['id'];
         $run = mysqli_query($conn,$sql);
         return $run;
     }
@@ -88,7 +124,7 @@ class AbstractQuery{
     }
     public function getNewsByTop3(){
         global $conn;
-        $sql="select * from news order by date desc limit 0,3";
+        $sql="select * from news where status=1 order by date desc limit 0,3";
         $run = mysqli_query($conn,$sql);
         return $run;
     }
@@ -98,19 +134,67 @@ class AbstractQuery{
         $run = mysqli_query($conn,$sql);
         return $run;
     }
-    public function updatePostById($id,$author,$title,$date,$short_content,$long_content){
+    public function updatePostById($id,$title,$date,$short_content,$long_content){
         global $conn;
-        $sql="update news set author='$author', title='$title', date='$date', short_content='$short_content', long_content='$long_content' where id = $id";
+        $sql="update news set title='$title', date='$date', short_content='$short_content', long_content='$long_content' where id = $id";
         $run = mysqli_query($conn,$sql);
         return $run;
     }
 
-    public function addPost($author,$title,$date,$short_content,$long_content){
+    public function publicPostById($id){
         global $conn;
-        $sql= "insert into news(author,title,date,short_content,long_content) values('$author','$title','$date','$short_content','$long_content')";
+        $sql="update news set status=1 where id = $id";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getAllPostPrivate(){
+        global $conn;
+        $sql="select * from news where status=0";
         $run = mysqli_query($conn,$sql);
         return $run;
     }
 
+    public function addPost($title,$date,$short_content,$long_content){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        if($result['role'] == 'ADMIN') $status = 1;
+        else $status = 0;
+        $sql= "insert into news(author,title,date,short_content,long_content,status) values(".$result['id'].",'$title','$date','$short_content','$long_content',$status)";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+
+    /// comment
+    public function addComment($news,$content){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql= "insert into comment(author,news,content) values(".$result['id'].",$news,'$content')";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function getAllComment($news){
+        global $conn;
+        $sql= "select c.*, u.fullname from comment c, user u where c.author=u.id and c.news = $news";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function updateComment($id,$news,$content){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql= "update comment set content='$content' where id=$id and news=$news and author =".$result['id'];
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function deleteComment($id,$news){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql= "delete from comment where id=$id and news=$news and author =".$result['id'];
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
 }
 ?>

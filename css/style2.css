@@ -3,3 +3,8 @@
     width: 120px;
     text-align: center;
 }
+#header>div, #footer>div {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}

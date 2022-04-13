@@ -13,6 +13,11 @@ $checkCookie = $query->loginWithCookie();
 	<link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 <body>
+	<style>
+		#header>div, #footer>div {
+            width: 1000px;
+        }
+	</style>
 	<div id="header">
 		<div>
 			<div class="logo">
@@ -75,14 +80,15 @@ $checkCookie = $query->loginWithCookie();
                 if(check()){
 					$run = $query->login($_POST['txtUsername'],$_POST['txtPassword']);
                     if($run){
-						$role= $query->loginGetValue($_POST['txtUsername'],md5($_POST['txtPassword']));
+						header('Location: index.php');
+						/*$role= $query->loginGetValue($_POST['txtUsername'],md5($_POST['txtPassword']));
 						while($row = $role->fetch_assoc()) {
 							if($row['role']=="USER")
 								header('Location: index.php');
 							else
 								header('Location: admin.php');
 							break;
-						}
+						}*/
 					}
                         
                     else

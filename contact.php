@@ -8,6 +8,18 @@
 	<link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 <body>
+	<style>
+		#header>div, #footer>div {
+            width: 1000px;
+        }
+		.avatar{
+			width: 100%;
+			height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+		}
+	</style>
 	<div id="header">
 		<div>
 			<div class="logo">
@@ -38,6 +50,18 @@
 				<?php
 				include("filterwithcookie.php");
 				?>
+				<li>
+				<div class="avatar">
+                    <?php
+                    global $query;
+                    $run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+                        if($run->num_rows > 0){
+                            $row = $run->fetch_assoc();
+                            echo "<a href='/zerotype/profile/updateProfile.php'><img src=".$row['avatar']." width='60' height='60' style='border-radius:50%;'></a>";
+                        }
+                    ?>
+				</div>
+				</li>
 			</ul>
 		</div>
 	</div>

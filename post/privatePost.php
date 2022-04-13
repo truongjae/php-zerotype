@@ -5,9 +5,8 @@
 	<meta charset="UTF-8">
 	<title>Zerotype Website Template</title>
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<link rel="stylesheet" href="../css/style.css" type="text/css">
-	<link rel="stylesheet" href="../css/style2.css" type="text/css">
+	<link rel="stylesheet" href="/zerotype/css/style.css" type="text/css">
+	<link rel="stylesheet" href="/zerotype/css/style2.css" type="text/css">
 </head>
 <body>
 	<style>
@@ -20,6 +19,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+		}
+		.avatar form{
+			width: 0%;
+			float: right;
 		}
 		#btn-choice-avatar{
 			border: none;
@@ -57,9 +60,6 @@
 			text-align: left;
 			background-color: grey;
 			color: white;
-		}
-		#form-update-post{
-			padding: 0 20%;
 		}
 	</style>
 	<div id="header">
@@ -107,49 +107,35 @@
 			</ul>
 		</div>
 	</div>
-	<!-- <div id="contents"> -->
-		<!-- <div id="tagline" class="clearfix"> -->
+			<center><h2 style="margin-top:15px;">Public Post</h2></center>
+			<table id="post">
+					<tr>
+						<th>STT</th>
+						<th>Author</th>
+						<th>Title</th>
+						<th>Date</th>
+						<th>Short content</th>
+						<th>Full content</th>
+						<th>Public Post</th>
+						<th>Delete Post</th>
+					</tr>
 					<?php
 						global $query;
-						$posts = $query->getMyNewsById($_GET['id']);
+						$posts = $query->getAllPostPrivate();
 						foreach($posts as $post){
 					?>
-					<center><h2 style="margin-top:15px;">Sửa bài viết</h2></center>
-                    <div class="border-bottom my-3"></div>
-                    <form method="POST" id="form-update-post">
-                        <div class="mb-3">
-                            <label class="form-label">Tác giả</label>
-                            <input readonly type="text" name="author" class="form-control" name="name" value="<?php echo $post['fullname'] ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tiêu đề</label>
-                            <textarea class="form-control" name="title" rows="2"><?php echo $post['title'] ?></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nội dung ngắn</label>
-                            <textarea class="form-control" name="short_content" rows="3"><?php echo $post['short_content'] ?></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nội dung dài</label>
-                            <textarea class="form-control" name="long_content" rows="10"><?php echo $post['long_content'] ?></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ngày đăng</label> <?php echo date_format(date_create($post['date']), 'Y-m-d') ?>
-                            <input type="date" class="form-control" name="date" value="' .  . '">
-                        </div>
-                        <div class="mb-3">
-                            <input type="submit" name="submit" value="Sửa" class="btn btn-secondary">
-                        </div>
-                    </form>
+					<tr>
+						<td><?php echo $post['id'] ?></td>
+						<td><?php echo $post['author'] ?></td>
+						<td><?php echo $post['title'] ?></td>
+						<td><?php echo $post['date'] ?></td>
+						<td><?php echo $post['short_content'] ?></td>
+						<td><?php echo $post['long_content'] ?></td>
+						<td><a href="/zerotype/post/publicPost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn chắc chắn muốn duyệt bài chứ?');"><i class="fas fa-check"></i></a></td>
+						<td><a href="/zerotype/post/deletePost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
+                        </tr>
 					<?php } ?>
-                    <?php
-                     if(isset($_POST['submit'])){
-                        global $query;
-                        $run = $query->updatePostById($_GET['id'],$_POST['title'],$_POST['date'],$_POST['short_content'],$_POST['long_content']);
-                        if($run)
-                            echo "<script>alert('Cập nhật thành công');window.location.href='../admin.php';</script>";
-                     } 
-                    ?>
+			</table>
 		<!-- </div> -->
 	<!-- </div> -->
 	<div id="footer">

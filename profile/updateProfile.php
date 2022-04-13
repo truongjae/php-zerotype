@@ -1,103 +1,157 @@
-<?php
-	include("controll.php");
-	include("uploadfile.php");
-	$query = new AbstractQuery();
-	$upload =  new UploadFile();
-	$checkCookie = $query->loginWithCookie();
-	if($checkCookie != null){
-		header('Location: login.php');
-	}
-?>
 <!DOCTYPE HTML>
+<!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Register - Zerotype Website Template</title>
-	<link rel="stylesheet" href="css/style.css" type="text/css">
-	<link rel="stylesheet" href="css/style2.css" type="text/css">
-	
+	<title>Zerotype Website Template</title>
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" href="/zerotype/css/style.css" type="text/css">
+	<link rel="stylesheet" href="/zerotype/css/style2.css" type="text/css">
+
 </head>
 <body>
-<style>
-		#header>div, #footer>div {
+	<style>
+		.avatar{
+			width: 100%;
+			height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+		}
+        .update-profile{
+			width: 100%;
+		}
+		.form-upload{
+			margin-top: 15px;
+		}
+        #HDpro{
+            padding: 0 20%;
+        }
+        #header>div, #footer>div {
             width: 1000px;
         }
 	</style>
 	<div id="header">
 		<div>
 			<div class="logo">
-				<a href="index.php">Zero Type</a>
+				<a href="../index.php">Zero Type</a>
 			</div>
 			<ul id="navigation">
-				<li>
-					<a href="index.php">Home</a>
-				</li>
-				<li>
-					<a href="features.php">Features</a>
-				</li>
-				<li>
-					<a href="news.php">News</a>
-				</li>
-				<li>
-					<a href="about.php">About</a>
-				</li>
-				<li>
-					<a href="contact.php">Contact</a>
-				</li>
 				<li class="active">
-					<a href="register.php">Register</a>
+					<a href="../admin.php">Home</a>
 				</li>
 				<li>
-					<a href="login.php">Login</a>
+					<a href="../features.php">Features</a>
 				</li>
+				<li>
+					<a href="../news.php">News</a>
+				</li>
+				<li>
+					<a href="../about.php">About</a>
+				</li>
+				<li>
+					<a href="../contact.php">Contact</a>
+				</li>
+				<li id="register">
+					<a href="../register.php">Register</a>
+				</li>
+				<li id="login">
+					<a href="../login.php">Login</a>
+				</li>
+				<?php
+				include("../filterwithcookie.php");
+				?>
+				<li>
+				<div class="avatar">
+                    <?php
+                    global $query;
+                    $run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+                        if($run->num_rows > 0){
+                            $row = $run->fetch_assoc();
+                            echo "<a href='updateProfile.php'><img src=../".$row['avatar']." width='60' height='60' style='border-radius:50%;object-fit: cover;'></a>";
+                        }
+                    ?>
+				</div>
+				</li>
+				
 			</ul>
 		</div>
 	</div>
-	<div id="contents">
-		<div id="about">
-            <h1>Đăng ký</h1>
-            <form method="POST" enctype="multipart/form-data" id="HDpro">
-                <label>Tên tài khoản</label>
-                <input type="text" class="form-control" name="username">
+	<div class="update-profile">
+    <center><h2 style="margin-top:15px;">Update Profile</h2></center>
+    <div class="border-bottom my-3"></div>
+        <div id="HDpro">
+            <?php
+            global $query;
+            $run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+            if($run->num_rows > 0){
+                $row = $run->fetch_assoc();
+                echo "<img src=../".$row['avatar']." width='200' height='200' style='border-radius:20px; 
+                object-fit: cover;'>";
+            }
+            
+            if(isset($_POST['submit'])){
+                include("../uploadfile.php");
+                $upload = new UploadFile();
+                $avatar = $upload->upload();
+                if($avatar != null){
+                    $query->updateAvatar($avatar,$_COOKIE['username'],$_COOKIE['password']);
+                    header('Location: updateProfile.php');
+                }
+            }	
+            ?>
+        </div>
+        <form method="post" enctype="multipart/form-data" id="HDpro" class="form-upload">
+        <input type="file" name="file">
+        <input type="submit" value = "Update Avatar" name="submit">
+        </form>
 
+        
+        <div class="border-bottom my-3"></div>
+        <?php
+            global $query;
+            $run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+            $row = $run->fetch_assoc();
+        ?>
+        <form style="padding-bottom: 50px;" method="POST" id="HDpro">
+                <label>Username</label>
+                <input readonly type="text" class="form-control" name="username" value ='<?php echo $row['username']
+                ?>'> 
+                <label>Họ và tên</label>
+                <input type="text" class="form-control" name="fullname" value ='<?php echo $row['fullname']
+                ?>'> 
+                <label>Địa chỉ Email</label>
+                <input type="email" class="form-control" name="email" value = <?php echo $row['email'] ?> >
                 <label>Mật khẩu</label>
                 <input type="password" class="form-control" name="password">
-
-                <label>Địa chỉ Email</label>
-                <input type="email" class="form-control" name="email">
-
-                <label>Họ và tên</label>
-                <input type="text" class="form-control" name="fullname">
-
                 <label>Giới tính</label>
                 <select class="form-select" class="form-control" name="gender">
-                    <option selected value="1">-- Chọn giới tính --</option>
-                    <option value="male">Nam</option>
-                    <option value="female">Nữ</option>
-                    <option value="other">Khác</option>
+                    <option value="1">-- Chọn giới tính --</option>
+                    <option <?php if($row['gender']=='male') echo "selected";?> value="male">Nam</option>
+                    <option <?php if($row['gender']=='female') echo "selected";?>  value="female">Nữ</option>
+                    <option <?php if($row['gender']=='other') echo "selected";?> value="other">Khác</option>
                 </select>
 
                 <label>Sở thích</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="hoclaptrinh" value="Học lập trình">
+                    <input <?php if(strpos($row['favorite'],'hoclaptrinh') !== false) echo 'checked' ?> class="form-check-input" type="checkbox" name="hoclaptrinh" value="Học lập trình">
                     <label>Học lập trình</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="xemphim" value="Xem phim">
+                    <input <?php if(strpos($row['favorite'],'xemphim') !== false) echo 'checked' ?> class="form-check-input" type="checkbox" name="xemphim" value="Xem phim">
                     <label>Xem phim</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="choigame" value="Chơi game">
+                    <input <?php if(strpos($row['favorite'],'choigame') !== false) echo 'checked' ?> class="form-check-input" type="checkbox" name="choigame" value="Chơi game">
                     <label>Chơi game</label>
                 </div>
 
-                <label>Upload Avatar</label>
-                <input type="file" class="form-control" name="file">
-
-                <input type="submit"name="submit" value="Đăng ký">
+                <input type="submit"name="submit_update" value="Cập Nhật">
             </form>
-			<?php
-			
+            
+
+            <?php
 			function checkValue(){
                 $check = true;
                 if (empty($_POST['email'])){
@@ -107,10 +161,6 @@
                 else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
                     $check = false;
                     echo '<script>alert("Email không đúng định dạng")</script>';
-                }
-                else if (empty($_POST['username']) || (strlen($_POST['username']) < 5)){
-                    $check=false;
-                    echo '<script>alert("Tên người dùng không được để trống và độ dài phải lớn hơn hoặc bằng 5")</script>';
                 }
                 else if (empty($_POST['password']) || (strlen($_POST['password']) < 8)){
                     $check=false;
@@ -123,35 +173,35 @@
                 return $check;
             }
 
-			if(isset($_POST['submit'])){
+			if(isset($_POST['submit_update'])){
                 if(checkValue()){
 					global $query;
 					global $upload;
 					$favorite = "";
-					if(isset($_POST['hoclaptrinh'])) $favorite.=$_POST['hoclaptrinh'].",";
-					if(isset($_POST['xemphim'])) $favorite.=$_POST['xemphim'].",";
-					if(isset($_POST['choigame'])) $favorite.=$_POST['choigame'].",";
+					if(isset($_POST['hoclaptrinh'])) $favorite.='hoclaptrinh,';
+					if(isset($_POST['xemphim'])) $favorite.='xemphim,';
+					if(isset($_POST['choigame'])) $favorite.='choigame,';
 					$favorite= substr($favorite,0, -1);
-					$avatar = $upload->upload();
-					if($avatar != null){
-						$run = $query->register($_POST['email'],$_POST['username'],$_POST['password'],$_POST['fullname'],$_POST['gender'],$favorite,$avatar);
+						$run = $query->updateProfile($_POST['fullname'],$_POST['email'],
+                        $_POST['password'],$_POST['gender'],$favorite, $_COOKIE['username'], $_COOKIE['password']);
 						if($run != null)
-							echo '<script>alert("Đăng kí thành công")</script>';
-					}
-					else
-						echo '<script>alert("Upload ảnh không thành công")</script>';
+							echo '<script>alert("Cập nhật trang cá nhân thành công")
+                            ;window.location.href="updateProfile.php";</script>';
+                        else
+                            echo '<script>alert("Cập nhật trang cá nhân thất bại")
+                            ;window.location.href="updateProfile.php";</script>';
                 }
             }
 			?>
-        </div>
-	</div>
+
+    </div>
 	<div id="footer">
 		<div class="clearfix">
 			<div id="connect">
-				<a href="https://www.facebook.com/HoangDuc1st" target="_blank" class="facebook"></a><a href="#" target="_blank" class="googleplus"></a><a href="#" target="_blank" class="twitter"></a><a href="#" target="_blank" class="tumbler"></a>
+				<a href="http://freewebsitetemplates.com/go/facebook/" target="_blank" class="facebook"></a><a href="http://freewebsitetemplates.com/go/googleplus/" target="_blank" class="googleplus"></a><a href="http://freewebsitetemplates.com/go/twitter/" target="_blank" class="twitter"></a><a href="http://www.freewebsitetemplates.com/misc/contact/" target="_blank" class="tumbler"></a>
 			</div>
 			<p>
-				© 2022 Hoang Duc Oc cho. All Rights Reserved.
+				© 2023 Zerotype. All Rights Reserved.
 			</p>
 		</div>
 	</div>

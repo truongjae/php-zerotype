@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
@@ -10,17 +11,16 @@
 </head>
 <body>
 	<style>
+		#header>div, #footer>div {
+            width: 1000px;
+        }
+		
 		.avatar{
 			width: 100%;
-			height: 300px;
-		}
-		.avatar div{
-			width: 100%;
-			float: left;
-		}
-		.avatar form{
-			width: 0%;
-			float: right;
+			height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 		}
 		#btn-choice-avatar{
 			border: none;
@@ -67,7 +67,7 @@
 			</div>
 			<ul id="navigation">
 				<li class="active">
-					<a href="admin.php">Home</a>
+					<a href="index.php">Home</a>
 				</li>
 				<li>
 					<a href="features.php">Features</a>
@@ -89,44 +89,27 @@
 				</li>
 				<?php
 				include("filterwithcookie.php");
+				include("filteradmin.php");
 				?>
 				<li>
 				<div class="avatar">
-					<div>
-						<!-- <h1>TRANG ADMIN</h1> -->
-						<?php
-						global $query;
-						$run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
-						if($run->num_rows > 0){
-							while($row = $run->fetch_assoc()) {
-								echo "<img src=".$row['avatar']." width='100' style='border-radius:20px;'>";
-								break;
-							}
-						}
-						if(isset($_POST['submit'])){
-							include("uploadfile.php");
-							$upload = new UploadFile();
-							$avatar = $upload->upload();
-							if($avatar != null){
-								$query->updateAvatar($avatar,$_COOKIE['username'],$_COOKIE['password']);
-								header('Location: admin.php');
-							}
-						}	
-						?>
-					</div>
-					<form method="post" enctype="multipart/form-data">
-					<input id="btn-choice-avatar" type="file" name="file">
-					<input id="btn-update-avatar" type="submit" value = "update avatar" name="submit">
-					</form>
+                    <?php
+                    global $query;
+                    $run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+                        if($run->num_rows > 0){
+                            $row = $run->fetch_assoc();
+                            echo "<a href='/zerotype/profile/updateProfile.php'><img src=".$row['avatar']." width='60' height='60' style='border-radius:50%;'></a>";
+                        }
+                    ?>
 				</div>
 				</li>
-				
 			</ul>
 		</div>
 	</div>
 	<!-- <div id="contents"> -->
 		<!-- <div id="tagline" class="clearfix"> -->
-		<center><h1>Add Post <a href="./post/addPost.php"><i class="fas fa-plus"></i></a></h1></center>
+		<center><h1 style="margin-top:30px;">Add Post <a href="/zerotype/post/addPost.php"><i class="fas fa-plus"></i></a></h1></center>
+		<center><h1>Public List Post <a href="/zerotype/post/privatePost.php"><i class="fas fa-check"></i></a></h1></center>
 			<table id="post">
 					<tr>
 						<th>STT</th>

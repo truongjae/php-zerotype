@@ -13,7 +13,6 @@
 	<style>
 		.avatar{
 			width: 100%;
-			height: 300px;
 		}
 		.avatar div{
 			width: 100%;
@@ -60,6 +59,9 @@
 			background-color: grey;
 			color: white;
 		}
+		#header>div, #footer>div {
+            width: 1000px;
+        }
 	</style>
 	<div id="header">
 		<div>
@@ -91,19 +93,30 @@
 				<?php
 				include("../filterwithcookie.php");
 				?>
-				
+				<li>
+				<div class="avatar">
+                    <?php
+                    global $query;
+                    $run = $query->loginGetValue($_COOKIE['username'],$_COOKIE['password']); // get avatar
+                        if($run->num_rows > 0){
+                            $row = $run->fetch_assoc();
+                            echo "<a href='/zerotype/profile/updateProfile.php'><img src=../".$row['avatar']." width='60' height='60' style='border-radius:50%;'></a>";
+                        }
+                    ?>
+				</div>
+				</li>
 			</ul>
 		</div>
 	</div>
 	<!-- <div id="contents"> -->
 		<!-- <div id="tagline" class="clearfix"> -->
-					<h2>Thêm bài viết</h2>
+					<center><h2 style="margin-top:15px;">Thêm bài viết</h2></center>
                     <div class="border-bottom my-3"></div>
-                    <form method="POST">
-                        <div class="mb-3">
+                    <form method="POST" id="post">
+                        <!-- <div class="mb-3">
                             <label class="form-label">Tác giả</label>
                             <input type="text" name="author" class="form-control" name="name" >
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <label class="form-label">Tiêu đề</label>
                             <textarea class="form-control" name="title" rows="2"></textarea>
@@ -127,9 +140,9 @@
                     <?php
                      if(isset($_POST['submit'])){
                         global $query;
-                        $run = $query->addPost($_POST['author'],$_POST['title'],$_POST['date'],$_POST['short_content'],$_POST['long_content']);
+                        $run = $query->addPost($_POST['title'],$_POST['date'],$_POST['short_content'],$_POST['long_content']);
                         if($run)
-                            echo "<script>alert('Thêm thành công');window.location.href='../admin.php';</script>";
+                            echo "<script>alert('Thêm thành công');window.location.href='/zerotype/index.php';</script>";
                      }
                     ?>
 		<!-- </div> -->
