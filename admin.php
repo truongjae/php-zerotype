@@ -117,7 +117,6 @@
 						<th>Title</th>
 						<th>Date</th>
 						<th>Short content</th>
-						<th>Full content</th>
 						<th>Update Post</th>
 						<th>Delete Post</th>
 					</tr>
@@ -128,11 +127,10 @@
 					?>
 					<tr>
 						<td><?php echo $post['id'] ?></td>
-						<td><?php echo $post['author'] ?></td>
+						<td><?php echo $query->getFullNameFromUserId($post['author']) ?></td>
 						<td><?php echo $post['title'] ?></td>
 						<td><?php echo $post['date'] ?></td>
 						<td><?php echo $post['short_content'] ?></td>
-						<td><?php echo $post['long_content'] ?></td>
 						<td><a href="./post/updatePost.php?id=<?php echo $post['id'] ?>" ><i class="fas fa-edit"></i></a></td>
 						<td><a href="./post/deletePost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
 					</tr>

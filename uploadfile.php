@@ -12,7 +12,7 @@ class UploadFile{
             return null;
         }
         global $query;
-        $file = move_uploaded_file($_FILES["file"]["tmp_name"],"image/".$_FILES["file"]["name"]);
+        $file = move_uploaded_file($_FILES["file"]["tmp_name"],"../image/".$_FILES["file"]["name"]);
         return "image/".$_FILES["file"]["name"];
     }
 }

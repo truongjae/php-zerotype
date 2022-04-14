@@ -122,6 +122,15 @@ class AbstractQuery{
         }
         return null;
     }
+    public function getFullNameFromUserId($id){
+        global $conn;
+        $sql="select fullname from user where id=$id";
+        $run = mysqli_query($conn,$sql);
+        while($row = $run->fetch_assoc()) {
+            return $row['fullname'];
+        }
+        return null;
+    }
     public function getNewsByTop3(){
         global $conn;
         $sql="select * from news where status=1 order by date desc limit 0,3";
@@ -195,6 +204,23 @@ class AbstractQuery{
         $sql= "delete from comment where id=$id and news=$news and author =".$result['id'];
         $run = mysqli_query($conn,$sql);
         return $run;
+    }
+    public function getCommentById($id,$news){
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql= "select * from comment where id=$id and news = $news and author =".$result['id'];
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
+    public function checkIsMyComment($id){
+        global $conn;
+        global $conn;
+        $infoAuthor = $this->loginGetValue($_COOKIE['username'],$_COOKIE['password']);
+        $result = $infoAuthor->fetch_assoc();
+        $sql= "select * from comment where id = $id and author = ".$result['id'];
+        $run = mysqli_query($conn,$sql);
+        return $run->num_rows>0;
     }
 }
 ?>

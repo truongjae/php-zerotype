@@ -21,7 +21,7 @@
             justify-content: center;
             align-items: center;
 		}
-		.#comment{
+		#comment{
 			border-collapse: collapse;
 			width: 90%;
 			margin: 0 auto;
@@ -115,32 +115,41 @@
 				?>
 		</div>
 		<div class="comment">
-			<form method="POST" id="comment">
+			<form style="margin:30px 0;" method="POST" id="comment">
 				<div class="mb-3">
-					<label class="form-label">Comment</label>
-					<textarea class="form-control" name="content" rows="2"></textarea>
+					<textarea placeholder="Nhập comment" class="form-control" name="content" rows="2"></textarea>
 				</div>
-				
 					<input style="height:40px; font-size:15px;" type="submit" name="submit" value="Bình luận" >
-			
             </form>
 			<?php 
 				if(isset($_POST['submit'])){
-					global $query;
+					if($_POST['content'] == "")
+						echo "<script>alert('Comment không được để trống');</script>";
+					else{
+						global $query;
 					$run = $query->addComment($_GET['id'],$_POST['content']);
 					if($run)
-						echo "<script>alert('Thêm thành công');window.location.href='/zerotype/post.php?id=".$_GET['id']."';</script>";
+						echo "<script>window.location.href='/zerotype/post.php?id=".$_GET['id']."';</script>";
+					}
 				 }
 			?>
 		</div>
 		<div class="list-comment">
-			<center><h2><u>Danh sách comment</u></h2></center>
+			<!-- <center><h2><u>Danh sách comment</u></h2></center> -->
 			<?php
 				global $query;
 				$comments = $query->getAllComment($_GET['id']);
 				foreach($comments as $cmt){
 			?>
-			<p><i><u><b><?php echo $cmt['fullname'] ?></b></u></i> : <?php echo $cmt['content'] ?></p>
+			<p><i><u><b><?php echo $cmt['fullname'] ?></b></u></i> : <?php 
+			echo $cmt['content'];
+			
+			global $query;
+			if($query->checkIsMyComment($cmt['id'])){
+				echo '<a style="margin-left:30px;" href="/zerotype/comment/updateComment.php?id='.$cmt['id'].'&news='.$_GET['id'].'"><i class="fas fa-edit"></i></a>';
+				echo '<a style="margin-left:30px;" href="/zerotype/comment/deleteComment.php?id='.$cmt['id'].'&news='.$_GET['id'].'"><i class="fas fa-times"></i></a>';
+			}
+			 ?>  </p>
 			<?php 
 			}
 			?>
