@@ -166,7 +166,7 @@
 						<td><?php echo $user['email'] ?></td>
 						<td><?php echo $user['role'] ?></td>
 						<td><a href="/zerotype/user/updateUser.php?id=<?php echo $user['id'] ?>" ><i class="fas fa-edit"></i></a></td>
-						<td><a href="/zerotype/category/deleteCategory.php?id=<?php echo $category['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
+						<td><a href="/zerotype/user/deleteUser.php?id=<?php echo $user['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
 					</tr>
 					<?php } ?>
 			</table>

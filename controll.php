@@ -127,6 +127,16 @@ class AbstractQuery{
         return $run;
     }
 
+    public function deleteUserById($id){
+        global $conn;
+        if(!$this->isAdmin())
+            return null;
+        $sql = "delete from user where id = $id";
+        $run = mysqli_query($conn,$sql);
+        $sql = "delete from news where author=$id";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
     public function isAdmin(){
         return $this->loginWithCookie()->fetch_assoc()['role'] == "ADMIN";
     }
