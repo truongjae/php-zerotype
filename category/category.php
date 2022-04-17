@@ -141,6 +141,7 @@
 			<table id="category">
 					<tr>
 						<th>STT</th>
+						<th>ID</th>
 						<th>Name</th>
                         <th>Update Category</th>
 						<th>Delete Category</th>
@@ -148,9 +149,11 @@
 					<?php
 						global $query;
 						$categorys = $query->getAllCategory();
+						$i=1;
 						foreach($categorys as $category){
 					?>
 					<tr>
+						<td><?php echo $i++ ?></td>
 						<td><?php echo $category['id'] ?></td>
 						<td><?php echo $category['name'] ?></td>
 						<td><a href="/zerotype/category/updateCategory.php?id=<?php echo $category['id'] ?>" ><i class="fas fa-edit"></i></a></td>

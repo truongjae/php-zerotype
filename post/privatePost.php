@@ -112,20 +112,23 @@
 			<table id="post">
 					<tr>
 						<th>STT</th>
-						<th>Author</th>
+						<th style="min-width:30px">ID</th>
+						<th style="min-width:150px">Author</th>
 						<th>Title</th>
-						<th>Date</th>
+						<th style="min-width:100px">Date</th>
 						<th>Short content</th>
-						<th>Full content</th>
-						<th>Public Post</th>
+						<th style="min-width:100px">Category</th>
+						<th>Update Post</th>
 						<th>Delete Post</th>
 					</tr>
 					<?php
 						global $query;
 						$posts = $query->getAllPostPrivate();
+						$i=1;
 						foreach($posts as $post){
 					?>
 					<tr>
+						<td><?php echo $i++ ?></td>
 						<td><?php echo $post['id'] ?></td>
 						<td><?php echo $query->getFullNameFromUserId($post['author']) ?></td>
 						<td><?php echo $post['title'] ?></td>

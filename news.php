@@ -21,6 +21,12 @@
             justify-content: center;
             align-items: center;
 		}
+		.sidebar{
+			width: 250px;
+		}
+		#contents {
+			width: 950px;
+		}
 
 	</style>
 	<div id="header">
@@ -73,7 +79,7 @@
 			<h1>News</h1>
 			<ul class="news">
 			<form style="width:50%;" method="POST" enctype="multipart/form-data" id="HDpro">
-				<div class="mb-3">
+				<div class="mb-3" id="search-left">
 					<label>Tìm kiếm theo thể loại</label>
 					<select class="form-select" class="form-control" name="category_id">
 						<?php 
@@ -118,7 +124,11 @@
 									'.$date[1].'-'.$date[0].'
 								</p>
 							</div>
-							<h2>'.$row['title'].'<p><b>Author:</b> <i>'.$query->getFullNameFromUserId($row['author']).'</i></p></h2>
+							<h2>'.$row['title'].'<p><b>Tác giả:</b><img width="35" height="35" style="border-radius:50%; margin:0 5px; margin-bottom:-10px;" src="'
+							.$query->getAvatarByUserId($row['author'])['avatar'].'" > <i>'
+							.$query->getFullNameFromUserId($row['author']).'</i></p><p>Thể loại: <a href="/zerotype/news.php?category_id='.$row['category_id'].'">'
+							.$query->getCategoryById($row['category_id'])['name']
+							.'</a></p></h2>
 							<p>'.$row['short_content'].'<span><a href="post.php?id='.$row['id'].'" class="more">Read More</a></span>'.'</p>
 							</li>';
 						}
@@ -142,7 +152,11 @@
 							echo "
 							<li style='word-break: break-all;'>
 								<h4 class='title'><a href='post.php?id=".$row['id']."'>".$row['title']."</a></h4>
-								<p><b>Author:</b> <i>".$query->getFullNameFromUserId($row['author'])."</i></p>
+								
+								<p><b>Tác giả:</b><img width='35' height='35' style='border-radius:50%; margin:0 5px; margin-bottom:-10px;' src='".$query->getAvatarByUserId($row['author'])['avatar']."' > <i>".$query->getFullNameFromUserId($row['author'])."</i></p>
+								<p>Thể loại: <a href='/zerotype/news.php?category_id=".$row['category_id']."'>"
+								.$query->getCategoryById($row['category_id'])['name']
+								."</a></p>
 								<p>
 									".$row['short_content']."
 								</p>

@@ -3,9 +3,122 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>About - Zerotype Website Template</title>
+	<title>Features - Zerotype Website Template</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/style2.css" type="text/css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700|Open+Sans:400,700">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+	<style>
+body {
+	font-family: "Open Sans", sans-serif;
+}
+h2 {
+	color: #333;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: "Roboto", sans-serif;
+	font-weight: bold;
+	position: relative;
+	margin: 25px 0 50px;
+}
+h2::after {
+	content: "";
+	width: 100px;
+	position: absolute;
+	margin: 0 auto;
+	height: 3px;
+	background: #ffdc12;
+	left: 0;
+	right: 0;
+	bottom: -10px;
+}
+.carousel {
+	width: 650px;
+	margin: 0 auto;
+	padding-bottom: 50px;
+}
+.carousel .carousel-item {
+	color: #999;
+	font-size: 14px;
+	text-align: center;
+	overflow: hidden;
+	min-height: 340px;
+}
+.carousel .carousel-item a {
+	color: #eb7245;
+}
+.carousel .img-box {
+	width: 145px;
+	height: 145px;
+	margin: 0 auto;
+	border-radius: 50%;
+}
+.carousel .img-box img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	border-radius: 50%;
+}
+.carousel .testimonial {	
+	padding: 30px 0 10px;
+}
+.carousel .overview {	
+	text-align: center;
+	padding-bottom: 5px;
+}
+.carousel .overview b {
+	color: #333;
+	font-size: 15px;
+	text-transform: uppercase;
+	display: block;	
+	padding-bottom: 5px;
+}
+.carousel .star-rating i {
+	font-size: 18px;
+	color: #ffdc12;
+}
+.carousel-control-prev, .carousel-control-next {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: #999;
+	text-shadow: none;
+	top: 4px;
+}
+.carousel-control-prev i, .carousel-control-next i {
+	font-size: 20px;
+	margin-right: 2px;
+}
+.carousel-control-prev {
+	left: auto;
+	right: 40px;
+}
+.carousel-control-next i {
+	margin-right: -2px;
+}
+.carousel .carousel-indicators {
+	bottom: 15px;
+}
+.carousel-indicators li, .carousel-indicators li.active {
+	width: 11px;
+	height: 11px;
+	margin: 1px 5px;
+	border-radius: 50%;
+}
+.carousel-indicators li {	
+	background: #e2e2e2;
+	border: none;
+}
+.carousel-indicators li.active {		
+	background: #888;		
+}
+</style>
 </head>
 <body>
 	<style>
@@ -66,24 +179,68 @@
 		</div>
 	</div>
 	<div id="contents">
-		<div id="about">
-			<h1>About</h1>
-			<h2>We Have Free Templates for Everyone</h2>
-			<p>
-				Our website templates are created with inspiration, checked for quality and originality and meticulously sliced and coded. What's more, they're absolutely free! You can do a lot with them. You can modify them. You can use them to design websites for clients, so long as you agree with the <a href="http://www.freewebsitetemplates.com/about/terms/">Terms of Use</a>. You can even remove all our links if you want to.
-			</p>
-			<h2>We Have More Templates for You</h2>
-			<p>
-				Looking for more templates? Just browse through all our <a href="http://www.freewebsitetemplates.com/">Free Website Templates</a> and find what you're looking for. But if you don't find any website template you can use, you can try our <a href="http://www.freewebsitetemplates.com/freewebdesign/">Free Web Design</a> service and tell us all about it. Maybe you're looking for something different, something special. And we love the challenge of doing something different and something special.
-			</p>
-			<h2>Be Part of Our Community</h2>
-			<p>
-				If you're experiencing issues and concerns about this website template, join the discussion <a href="http://www.freewebsitetemplates.com/forums/">on our forum</a> and meet other people in the community who share the same interests with you.
-			</p>
-			<h2>Template details</h2>
-			<p>
-				Design version 9<br> Code version 3<br> Website Template details, discussion and updates for this <a href="http://www.freewebsitetemplates.com/discuss/zerotype/">Zerotype Website Template</a>.<br> Website Template design by <a href="http://www.freewebsitetemplates.com/">Free Website Templates</a>.<br> Please feel free to remove some or all the text and links of this page and replace it with your own About content.
-			</p>
+		<h2>TOP Tác giả</h2>
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Carousel indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>   
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+				<?php
+					global $query;
+					$authors = $query->getTop3Author();
+					$i=0;
+					foreach($authors as $author){
+						$user = $query->getUserById($author['author']);
+				 ?>
+				 <div class="carousel-item <?php if($i++ == 0) echo "active" ?>">
+					<div class="img-box"><img src="<?php echo $user['avatar'] ?>" alt=""></div>
+					<p class="testimonial">
+						<?php
+							$gender = $user['gender'] == "male" ? "Anh" : "Cô";
+							$list_favorite = explode(',', $user['favorite']);
+							$favorite ="";
+							foreach($list_favorite as $f){
+								switch($f){
+									case "hoclaptrinh":
+										$favorite.="Học lập trình,";
+										break;
+									case "xemphim":
+										$favorite.="Xem phim,";
+										break;
+									case "choigame":
+										$favorite.="Chơi game,";
+										break;
+								}
+							}
+							echo $gender." có tên thật là <b><u><i>".$user['fullname']."</i></u></b> sở thích: ".$favorite." ".$gender." đã đóng góp nhiều công sức xây dựng cộng đồng tin tức số 1 thế giới!";
+						?>
+					</p>
+					<p class="overview"><b><?php echo $user['username'] ?></b>Tổng số bài đăng: <a href="#"><?php echo $author['news_count'] ?></a> bài</p>
+					<div class="star-rating">
+						<ul class="list-inline">
+							<li class="list-inline-item"><i class="fa fa-star"></i></li>
+							<li class="list-inline-item"><i class="fa fa-star"></i></li>
+							<li class="list-inline-item"><i class="fa fa-star"></i></li>
+							<li class="list-inline-item"><i class="fa fa-star"></i></li>
+							<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+						</ul>
+					</div>
+				</div>
+				 <?php
+					}
+				 ?>
+			</div>
+			<!-- Carousel controls -->
+			<a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#myCarousel" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
 		</div>
 	</div>
 	<div id="footer">

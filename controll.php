@@ -3,7 +3,7 @@ include('connect.php');
 include('sendemail.php');
 class AbstractQuery{
     public function convertShortContent($content){
-        return strlen($content) < 80 ? $content : substr($content,0,80)."...";
+        return strlen($content) < 5 ? $content : substr($content,0,5)."...";
     }
     public function INSERT($name,$email,$subject,$note){
         global $conn;
@@ -245,6 +245,12 @@ class AbstractQuery{
         return $run;
     }
     
+    public function getTop3Author(){
+        global $conn;
+        $sql = "select author,count(author) as news_count from news where status=1 group by author order by count(author) desc limit 0,3";
+        $run = mysqli_query($conn,$sql);
+        return $run;
+    }
 
     /// comment
     public function addComment($news,$content){

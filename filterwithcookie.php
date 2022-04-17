@@ -11,7 +11,7 @@ if($checkCookie != null){
         }
         
         echo '<li>
-        <a href="/zerotype/logoutcookie.php">Logout (<u><i>'.$row['username'].'</i></u>)</a>
+        <a href="/zerotype/logoutcookie.php">Logout (<u><i>'.$query->convertShortContent($row['username']).'</i></u>)</a>
         </li>
         <style>
         #register,#login{

@@ -11,6 +11,7 @@ $checkCookie = $query->loginWithCookie();
 	<title>Contact - Zerotype Website Template</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/style2.css" type="text/css">
+	<link rel="stylesheet" href="css/styleform.css" type="text/css">
 </head>
 <body>
 	<style>
@@ -51,13 +52,25 @@ $checkCookie = $query->loginWithCookie();
 	<div id="contents">
 		<div class="section">
 			<h1>Login</h1>
-			<form method="POST" class="message">
+			<!-- <form method="POST" class="message">
 				<input type="text" name="txtUsername" placeholder="Username" onFocus="this.select();" onMouseOut="javascript:return false;"/>
 				<input style="width:380px; height:33px;" type="password" name="txtPassword" placeholder="Enter the password" onFocus="this.select();" onMouseOut="javascript:return false;"/>
 				<br><br>
 				<input type="submit" name="txtSub" value="Login"/>
 			</form>
-			<a href="#">Forgot password</a>
+			<a href="#">Forgot password</a> -->
+			
+			<form method="POST" id="HDpro">
+                <label>Tên tài khoản</label>
+                <input type="text" class="form-control" name="txtUsername">
+
+                <label>Mật khẩu</label>
+                <input type="password" class="form-control" name="txtPassword">
+
+                <input style="margin-top: 15px;" type="submit"name="txtSub" value="Đăng Nhập">
+            </form>
+
+			
 			<?php
 			function check(){
                 $check = true;

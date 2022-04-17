@@ -140,8 +140,9 @@
 			<table id="user">
 					<tr>
 						<th>STT</th>
-						<th>Username</th>
-						<th>Fullname</th>
+						<th style="min-width:30px">ID</th>
+						<th style="min-width:150px">Username</th>
+						<th style="min-width:150px">Fullname</th>
 						<th>Gender</th>
 						<th>Favorite</th>
 						<th>Email</th>
@@ -152,9 +153,11 @@
 					<?php
 						global $query;
 						$users = $query->getAllUser();
+						$i=1;
 						foreach($users as $user){
 					?>
 					<tr>
+						<td><?php echo $i++ ?></td>
 						<td><?php echo $user['id'] ?></td>
 						<td><?php echo $user['username'] ?></td>
 						<td><?php echo $user['fullname'] ?></td>
