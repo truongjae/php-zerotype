@@ -72,9 +72,9 @@
 				You can replace all this text with your own text. Want an easier solution for a Free Website? Head straight to Wix and immediately start customizing your website! Wix is an online website builder with a simple drag & drop interface, meaning you do the work online and instantly publish to the web. All Wix templates are fully customizable and free to use. Just pick one you like, click Edit, and enter the online editor.
 			</p>
 			<form method="POST" class="message">
-				<input type="text" name="txtName" value="Name" onFocus="this.select();" onMouseOut="javascript:return false;"/>
-				<input type="text" name="txtEmail" value="Email" onFocus="this.select();" onMouseOut="javascript:return false;"/>
-				<input type="text" name="txtSubject" value="Subject" onFocus="this.select();" onMouseOut="javascript:return false;"/>
+				<input type="text" name="txtName" placeholder="Name" onFocus="this.select();" onMouseOut="javascript:return false;"/>
+				<input type="text" name="txtEmail" placeholder="Email" onFocus="this.select();" onMouseOut="javascript:return false;"/>
+				<input type="text" name="txtSubject" placeholder="Subject" onFocus="this.select();" onMouseOut="javascript:return false;"/>
 				<textarea name="txtMess"></textarea>
 				<input type="submit" name="txtSub" value="Send"/>
 			</form>

@@ -1,10 +1,10 @@
 <?php
     include("../controll.php");
     $query = new AbstractQuery();
-    $run = $query->deletePostById($_GET['id']);
+    $run = $query->deleteCategory($_GET['id']);
     if($run){
         echo "<script>alert('Xóa thành công');
-        window.location.href='../admin.php';
+        window.location.href='/zerotype/category/category.php';
         </script>";
     }
     else echo "<script>alert('Xóa thất bại')</script>";

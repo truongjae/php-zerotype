@@ -11,16 +11,15 @@
 </head>
 <body>
 	<style>
+		#header>div, #footer>div {
+            width: 1000px;
+        }
 		.avatar{
 			width: 100%;
-		}
-		.avatar div{
-			width: 100%;
-			float: left;
-		}
-		.avatar form{
-			width: 0%;
-			float: right;
+			height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 		}
 		#btn-choice-avatar{
 			border: none;
@@ -59,39 +58,40 @@
 			background-color: grey;
 			color: white;
 		}
-		#header>div, #footer>div {
-            width: 1000px;
-        }
+		#form-update-post{
+			padding: 0 20%;
+		}
 	</style>
 	<div id="header">
 		<div>
 			<div class="logo">
-				<a href="index.php">Zero Type</a>
+				<a href="/zerotype/index.php">Zero Type</a>
 			</div>
 			<ul id="navigation">
 				<li class="active">
-					<a href="admin.php">Home</a>
+					<a href="/zerotype/admin.php">Home</a>
 				</li>
 				<li>
-					<a href="features.php">Features</a>
+					<a href="/zerotype/features.php">Features</a>
 				</li>
 				<li>
-					<a href="news.php">News</a>
+					<a href="/zerotype/news.php">News</a>
 				</li>
 				<li>
-					<a href="about.php">About</a>
+					<a href="/zerotype/about.php">About</a>
 				</li>
 				<li>
-					<a href="contact.php">Contact</a>
+					<a href="/zerotype/contact.php">Contact</a>
 				</li>
 				<li id="register">
-					<a href="register.php">Register</a>
+					<a href="/zerotype/register.php">Register</a>
 				</li>
 				<li id="login">
-					<a href="login.php">Login</a>
+					<a href="/zerotype/login.php">Login</a>
 				</li>
 				<?php
 				include("../filterwithcookie.php");
+				include("../filteradmin.php");
 				?>
 				<li>
 				<div class="avatar">
@@ -110,56 +110,28 @@
 	</div>
 	<!-- <div id="contents"> -->
 		<!-- <div id="tagline" class="clearfix"> -->
-					<center><h2 style="margin-top:15px;">Thêm bài viết</h2></center>
+					<?php
+						global $query;
+						$category = $query->getCategoryById($_GET['id']);
+					?>
+					<center><h2 style="margin-top:15px;">Sửa thể loại bài viết</h2></center>
                     <div class="border-bottom my-3"></div>
-                    <form method="POST" id="post">
-                        <!-- <div class="mb-3">
-                            <label class="form-label">Tác giả</label>
-                            <input type="text" name="author" class="form-control" name="name" >
-                        </div> -->
+                    <form method="POST" id="form-update-post">
                         <div class="mb-3">
-                            <label class="form-label">Tiêu đề</label>
-                            <textarea class="form-control" name="title" rows="2"></textarea>
+                            <label class="form-label">Tên thể loại bài viết</label>
+                            <input type="text" name="nameCategory" class="form-control" name="name" value="<?php echo $category['name'] ?>">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Nội dung ngắn</label>
-                            <textarea class="form-control" name="short_content" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nội dung dài</label>
-                            <textarea class="form-control" name="long_content" rows="10"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ngày đăng</label>
-                            <input type="date" class="form-control" name="date" value="' .  . '">
-                        </div>
-						<!-- getAllCategory -->
-						<div class="mb-3">
-                            <label>Thể loại</label>
-							<select class="form-select" class="form-control" name="category_id">
-								<?php 
-									global $query;
-									$categories = $query->getAllCategory();
-									foreach($categories as $category){
-								?>
-								<option value="<?php echo $category['id'] ?>"><?php echo $category['name']?></option>
-								<?php
-									}
-								?>
-							</select>
-                        </div>
-						
-                        <div class="mb-3">
-                            <input type="submit" name="submit" value="Thêm" class="btn btn-secondary">
+                            <input type="submit" name="submit" value="Sửa" class="btn btn-secondary">
                         </div>
                     </form>
                     <?php
                      if(isset($_POST['submit'])){
                         global $query;
-                        $run = $query->addPost($_POST['title'],$_POST['date'],$_POST['short_content'],$_POST['long_content'],$_POST['category_id']);
+                        $run = $query->updateCategory($_GET['id'],$_POST['nameCategory']);
                         if($run)
-                            echo "<script>alert('Thêm thành công');window.location.href='/zerotype/index.php';</script>";
-                     }
+                            echo "<script>alert('Cập nhật thành công');window.location.href='/zerotype/category/category.php';</script>";
+                     } 
                     ?>
 		<!-- </div> -->
 	<!-- </div> -->

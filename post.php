@@ -23,15 +23,14 @@
 		}
 		#comment{
 			border-collapse: collapse;
-			width: 90%;
+			width: 100%;
 			margin: 0 auto;
+			word-break: break-all;
 		}
 		#comment td, #comment th{
-			border: 1px solid #ddd;
-			padding: 8px;
+			padding: 20px;
 		}
 		#comment tr:nth-child(even){
-			background-color: #f2f2f2; 
 		}
 		#comment tr:hover{
 			background-color: #ddd;
@@ -41,6 +40,33 @@
 			background-color: grey;
 			color: white;
 		}
+		#btn-cmt{
+			border: none;
+			background-color: #727272;
+			color: #fff;
+			display: inline-block;
+			font-size: 14px;
+			line-height: 30px;
+			width: 100px;
+			text-align: center;
+			text-decoration: none;
+		}
+		#btn-cmt:hover{
+			background-color:#ffc107;
+			color: #fff;
+			display: inline-block;
+			font-size: 14px;
+			line-height: 30px;
+			width: 100px;
+			text-align: center;
+			text-decoration: none;
+		}
+		.icon-cmt{
+			float: right;
+			width: 100px;
+			text-align: center;
+		}
+		
 	</style>
 	<div id="header">
 		<div>
@@ -108,52 +134,60 @@
 							<p>".$row['long_content']."</p>
 							<span><a href='news.php' class='more'>Back to News</a></span>";
 						}
-					
+						?>
+
+					<div class="comment">
+						<form style="margin:30px 0;" method="POST" id="comment">
+							<div class="mb-3">
+								<textarea placeholder="Nhập comment" class="form-control" name="content" rows="2"></textarea>
+							</div>
+								<input id="btn-cmt" style="height:40px; font-size:15px;" type="submit" name="submit" value="Bình luận" >
+						</form>
+						<?php 
+							if(isset($_POST['submit'])){
+								if($_POST['content'] == "")
+									echo "<script>alert('Comment không được để trống');</script>";
+								else{
+									global $query;
+									$run = $query->addComment($_GET['id'],$_POST['content']);
+									if($run)
+										echo "<script>window.location.href='/zerotype/post.php?id=".$_GET['id']."';</script>";
+								}
+							}
+						?>
+					</div>
+					<div class="list-comment">
+						<!-- <center><h2><u>Danh sách comment</u></h2></center> -->
+						<table id="comment">
+							<?php
+								global $query;
+								$comments = $query->getAllComment($_GET['id']);
+								foreach($comments as $cmt){
+							?>
+							<tr>
+							<td><img width='45' height='45' style='border-radius:50%; margin-right: 10px;' src="<?php echo $query->getAvatarByUserId($cmt['user_id'])['avatar'] ?>" ><i><u><b><?php echo $cmt['fullname'] ?></b></u></i> : <?php echo $cmt['content'];?></td>
+							<td>
+							<?php
+								global $query;
+								if($query->checkIsMyComment($cmt['id']) || $query->isAdmin()){
+									echo '<div class="icon-cmt"><a style="margin-left:30px;" href="/zerotype/comment/updateComment.php?id='.$cmt['id'].'&news='.$_GET['id'].'"><i class="fas fa-edit"></i></a>';
+									echo '<a style="margin-left:30px;" href="/zerotype/comment/deleteComment.php?id='.$cmt['id'].'&news='.$_GET['id'].'"><i class="fas fa-times"></i></a></div>';
+								}
+							}
+							?>
+							</td>
+							</tr>
+						</table>
+					</div>
+
+					<?php
+
 					}
 					else
-						echo "<h1>Bài viết đéo tồn tại!</h1> <span><a href='news.php' class='more'>Back to News</a></span>";
+						echo "<h1>Bài viết không tồn tại!</h1> <span><a href='news.php' class='more'>Back to News</a></span>";
 				?>
 		</div>
-		<div class="comment">
-			<form style="margin:30px 0;" method="POST" id="comment">
-				<div class="mb-3">
-					<textarea placeholder="Nhập comment" class="form-control" name="content" rows="2"></textarea>
-				</div>
-					<input style="height:40px; font-size:15px;" type="submit" name="submit" value="Bình luận" >
-            </form>
-			<?php 
-				if(isset($_POST['submit'])){
-					if($_POST['content'] == "")
-						echo "<script>alert('Comment không được để trống');</script>";
-					else{
-						global $query;
-					$run = $query->addComment($_GET['id'],$_POST['content']);
-					if($run)
-						echo "<script>window.location.href='/zerotype/post.php?id=".$_GET['id']."';</script>";
-					}
-				 }
-			?>
-		</div>
-		<div class="list-comment">
-			<!-- <center><h2><u>Danh sách comment</u></h2></center> -->
-			<?php
-				global $query;
-				$comments = $query->getAllComment($_GET['id']);
-				foreach($comments as $cmt){
-			?>
-			<p><i><u><b><?php echo $cmt['fullname'] ?></b></u></i> : <?php 
-			echo $cmt['content'];
-			
-			global $query;
-			if($query->checkIsMyComment($cmt['id'])){
-				echo '<a style="margin-left:30px;" href="/zerotype/comment/updateComment.php?id='.$cmt['id'].'&news='.$_GET['id'].'"><i class="fas fa-edit"></i></a>';
-				echo '<a style="margin-left:30px;" href="/zerotype/comment/deleteComment.php?id='.$cmt['id'].'&news='.$_GET['id'].'"><i class="fas fa-times"></i></a>';
-			}
-			 ?>  </p>
-			<?php 
-			}
-			?>
-		</div>
+		
 		
 	</div>
 	<div id="footer">

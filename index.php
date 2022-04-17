@@ -36,6 +36,10 @@
 		}
 		table, th, td {
 			border:1px solid black;
+			text-align: center;
+		}
+		td{
+			word-break: break-all;
 		}
 		#post{
 			border-collapse: collapse;
@@ -111,8 +115,9 @@
 						<th>STT</th>
 						<th>Author</th>
 						<th>Title</th>
-						<th>Date</th>
+						<th style="min-width:100px">Date</th>
 						<th>Short content</th>
+						<th>Category</th>
 						<th>Update Post</th>
 						<th>Delete Post</th>
 					</tr>
@@ -127,8 +132,9 @@
 						<td><?php echo $post['id'] ?></td>
 						<td><?php echo $query->getFullNameFromUserId($post['author']) ?></td>
 						<td><?php echo $post['title'] ?></td>
-						<td><?php echo $post['date'] ?></td>
+						<td><?php echo date_format(date_create($post['date']), 'd-m-Y') ?></td>
 						<td><?php echo $post['short_content'] ?></td>
+						<td><?php echo $query->getCategoryById($post['category_id'])['name']?></td>
 						<td><a href="./post/updatePost.php?id=<?php echo $post['id'] ?>" ><i class="fas fa-edit"></i></a></td>
 						<td><a href="./post/deletePost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
 					</tr>

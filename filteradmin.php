@@ -4,9 +4,9 @@ $checkCookie = $query->loginWithCookie();
 if($checkCookie != null){
     while($row = $checkCookie->fetch_assoc()) {
         if($row['role']=="USER")
-            header('Location: index.php');
+            header('Location: /zerotype/index.php');
     }
 }
 else
-    header('Location: login.php');
+    header('Location: /zerotype/login.php');
 ?>

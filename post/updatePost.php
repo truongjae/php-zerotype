@@ -113,6 +113,7 @@
 						global $query;
 						$posts = $query->getMyNewsById($_GET['id']);
 						foreach($posts as $post){
+							
 					?>
 					<center><h2 style="margin-top:15px;">Sửa bài viết</h2></center>
                     <div class="border-bottom my-3"></div>
@@ -134,8 +135,23 @@
                             <textarea class="form-control" name="long_content" rows="10"><?php echo $post['long_content'] ?></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Ngày đăng</label> <?php echo date_format(date_create($post['date']), 'Y-m-d') ?>
-                            <input type="date" class="form-control" name="date" value="' .  . '">
+                            <label class="form-label">Ngày đăng</label>
+                            <input type="date" class="form-control" name="date" value="<?php echo date_format(date_create($post['date']), 'Y-m-d') ?>" > 
+                        </div>
+							<!-- getAllCategory -->
+							<div class="mb-3">
+                            <label>Thể loại</label>
+							<select class="form-select" class="form-control" name="category_id">
+								<?php 
+									global $query;
+									$categories = $query->getAllCategory();
+									foreach($categories as $category){
+								?>
+								<option <?php if($category['id']==$post['category_id']) echo "selected" ?>  value="<?php echo $category['id'] ?>"><?php echo $category['name']?></option>
+								<?php
+									}
+								?>
+							</select>
                         </div>
                         <div class="mb-3">
                             <input type="submit" name="submit" value="Sửa" class="btn btn-secondary">
@@ -145,7 +161,7 @@
                     <?php
                      if(isset($_POST['submit'])){
                         global $query;
-                        $run = $query->updatePostById($_GET['id'],$_POST['title'],$_POST['date'],$_POST['short_content'],$_POST['long_content']);
+                        $run = $query->updatePostById($_GET['id'],$_POST['title'],$_POST['date'],$_POST['short_content'],$_POST['long_content'],$_POST['category_id']);
                         if($run)
                             echo "<script>alert('Cập nhật thành công');window.location.href='../admin.php';</script>";
                      } 

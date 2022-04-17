@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css">
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/style2.css" type="text/css">
+	<link rel="stylesheet" href="css/styleform.css" type="text/css">
 </head>
 <body>
 	<style>
@@ -38,6 +39,10 @@
 		}
 		table, th, td {
 			border:1px solid black;
+			text-align: center;
+		}
+		td{
+			word-break: break-all;
 		}
 		#post{
 			border-collapse: collapse;
@@ -106,17 +111,46 @@
 			</ul>
 		</div>
 	</div>
-	<!-- <div id="contents"> -->
-		<!-- <div id="tagline" class="clearfix"> -->
+		
+		
+		<div class="menu-choice">
+			<form style="width:10%; margin:15px 5%;" method="POST" enctype="multipart/form-data" id="HDpro">
+				<label>Lựa chọn chức năng: </label>
+				<select class="form-select" class="form-control" name="manager_choice">
+					<option selected value="managePost">Quản lý Post</option>
+					<option value="manageCategory">Quản lý Category</option>
+					<option value="manageUser">Quản lý User</option>
+				</select>
+				<input type="submit"name="submit_manager_choice" value="Xác nhận">
+			</form>
+			<?php
+				if(isset($_POST['submit_manager_choice'])){
+					switch($_POST['manager_choice']){
+						case "managePost":
+							header("Location: /zerotype/admin.php");
+							break;
+						case "manageCategory":
+							header("Location: /zerotype/category/category.php");
+							break;
+						case "manageUser":
+							header("Location: /zerotype/user/user.php");
+							break;
+					}
+				}
+			?>
+		</div>
+
 		<center><h1 style="margin-top:30px;">Add Post <a href="/zerotype/post/addPost.php"><i class="fas fa-plus"></i></a></h1></center>
 		<center><h1>Public List Post <a href="/zerotype/post/privatePost.php"><i class="fas fa-check"></i></a></h1></center>
+		
 			<table id="post">
 					<tr>
 						<th>STT</th>
 						<th>Author</th>
 						<th>Title</th>
-						<th>Date</th>
+						<th style="min-width:100px">Date</th>
 						<th>Short content</th>
+						<th>Category</th>
 						<th>Update Post</th>
 						<th>Delete Post</th>
 					</tr>
@@ -129,15 +163,14 @@
 						<td><?php echo $post['id'] ?></td>
 						<td><?php echo $query->getFullNameFromUserId($post['author']) ?></td>
 						<td><?php echo $post['title'] ?></td>
-						<td><?php echo $post['date'] ?></td>
+						<td><?php echo date_format(date_create($post['date']), 'd-m-Y') ?></td>
 						<td><?php echo $post['short_content'] ?></td>
+						<td><?php echo $query->getCategoryById($post['category_id'])['name']?></td>
 						<td><a href="./post/updatePost.php?id=<?php echo $post['id'] ?>" ><i class="fas fa-edit"></i></a></td>
 						<td><a href="./post/deletePost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
 					</tr>
 					<?php } ?>
 			</table>
-		<!-- </div> -->
-	<!-- </div> -->
 	<div id="footer">
 		<div class="clearfix">
 			<div id="connect">

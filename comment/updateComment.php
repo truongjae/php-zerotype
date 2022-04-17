@@ -45,29 +45,29 @@
 	<div id="header">
 		<div>
 			<div class="logo">
-				<a href="index.php">Zero Type</a>
+				<a href="/zerotype/index.php">Zero Type</a>
 			</div>
 			<ul id="navigation">
 				<li>
-					<a href="index.php">Home</a>
+					<a href="/zerotype/index.php">Home</a>
 				</li>
 				<li>
-					<a href="features.php">Features</a>
+					<a href="/zerotype/features.php">Features</a>
 				</li>
 				<li class="active">
-					<a href="news.php">News</a>
+					<a href="/zerotype/news.php">News</a>
 				</li>
 				<li>
-					<a href="about.php">About</a>
+					<a href="/zerotype/about.php">About</a>
 				</li>
 				<li>
-					<a href="contact.php">Contact</a>
+					<a href="/zerotype/contact.php">Contact</a>
 				</li>
 				<li id="register">
-					<a href="register.php">Register</a>
+					<a href="/zerotype/register.php">Register</a>
 				</li>
 				<li id="login">
-					<a href="login.php">Login</a>
+					<a href="/zerotype/login.php">Login</a>
 				</li>
 				<?php
 				include("../filterwithcookie.php");
@@ -98,7 +98,7 @@
                 ?>
 				<div class="mb-3">
 					<label class="form-label">Comment</label>
-					<textarea class="form-control" name="content" rows="2" ><?php echo $cmt['content'] ?></textarea>
+					<textarea class="form-control" name="content" rows="2" ><?php echo $cmt['content']; ?></textarea>
 				</div>
 					<input style="height:40px; font-size:15px;" type="submit" name="submit" value="Update Bình luận" >
             </form>

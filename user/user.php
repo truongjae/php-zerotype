@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
@@ -5,24 +6,22 @@
 	<meta charset="UTF-8">
 	<title>Zerotype Website Template</title>
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css">
-	<link rel="stylesheet" href="/zerotype/css/style.css" type="text/css">
-	<link rel="stylesheet" href="/zerotype/css/style2.css" type="text/css">
+	<link rel="stylesheet" href="../css/style.css" type="text/css">
+	<link rel="stylesheet" href="../css/style2.css" type="text/css">
+	<link rel="stylesheet" href="../css/styleform.css" type="text/css">
 </head>
 <body>
 	<style>
 		#header>div, #footer>div {
             width: 1000px;
         }
+		
 		.avatar{
 			width: 100%;
 			height: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
-		}
-		.avatar form{
-			width: 0%;
-			float: right;
 		}
 		#btn-choice-avatar{
 			border: none;
@@ -40,24 +39,24 @@
 		}
 		table, th, td {
 			border:1px solid black;
-			word-break: break-all;
+			text-align: center;
 		}
-		#post{
+		#user{
 			border-collapse: collapse;
-			width: 90%;
+			width: 50%;
 			margin: 0 auto;
 		}
-		#post td, #post th{
+		#user td, #user th{
 			border: 1px solid #ddd;
 			padding: 8px;
 		}
-		#post tr:nth-child(even){
+		#user tr:nth-child(even){
 			background-color: #f2f2f2; 
 		}
-		#post tr:hover{
+		#user tr:hover{
 			background-color: #ddd;
 		}
-		#post th{
+		#user th{
 			text-align: left;
 			background-color: grey;
 			color: white;
@@ -70,7 +69,7 @@
 			</div>
 			<ul id="navigation">
 				<li class="active">
-					<a href="/zerotype/admin.php">Home</a>
+					<a href="/zerotype/index.php">Home</a>
 				</li>
 				<li>
 					<a href="/zerotype/features.php">Features</a>
@@ -92,6 +91,7 @@
 				</li>
 				<?php
 				include("../filterwithcookie.php");
+				include("../filteradmin.php");
 				?>
 				<li>
 				<div class="avatar">
@@ -108,38 +108,66 @@
 			</ul>
 		</div>
 	</div>
-			<center><h2 style="margin-top:15px;">Public Post</h2></center>
-			<table id="post">
+		
+		
+		<div class="menu-choice">
+			<form style="width:10%; margin:15px 5%;" method="POST" enctype="multipart/form-data" id="HDpro">
+				<label>Lựa chọn chức năng: </label>
+				<select class="form-select" class="form-control" name="manager_choice">
+					<option selected value="managePost">Quản lý Post<a href="/zerotype/post/addPost.php"><i class="fas fa-plus"></i></a></option>
+					<option value="manageCategory">Quản lý Category<a href="/zerotype/post/addPost.php"><i class="fas fa-plus"></i></a></option>
+					<option value="manageUser">Quản lý User</option>
+				</select>
+				<input type="submit"name="submit_manager_choice" value="Xác nhận">
+			</form>
+			<?php
+				if(isset($_POST['submit_manager_choice'])){
+					switch($_POST['manager_choice']){
+						case "managePost":
+							header("Location: /zerotype/admin.php");
+							break;
+						case "manageCategory":
+							header("Location: /zerotype/category/addCategory.php");
+							break;
+						case "manageUser":
+							header("Location: /zerotype/user/user.php");
+							break;
+					}
+				}
+			?>
+		</div>
+
+			<table id="user">
 					<tr>
 						<th>STT</th>
-						<th>Author</th>
-						<th>Title</th>
-						<th>Date</th>
-						<th>Short content</th>
-						<th>Full content</th>
-						<th>Public Post</th>
-						<th>Delete Post</th>
+						<th>Username</th>
+						<th>Fullname</th>
+						<th>Gender</th>
+						<th>Favorite</th>
+						<th>Email</th>
+						<th>Role</th>
+                        <th>Update Category</th>
+						<th>Delete Category</th>
 					</tr>
 					<?php
 						global $query;
-						$posts = $query->getAllPostPrivate();
-						foreach($posts as $post){
+						$users = $query->getAllUser();
+						foreach($users as $user){
 					?>
 					<tr>
-						<td><?php echo $post['id'] ?></td>
-						<td><?php echo $query->getFullNameFromUserId($post['author']) ?></td>
-						<td><?php echo $post['title'] ?></td>
-						<td><?php echo $post['date'] ?></td>
-						<td><?php echo $post['short_content'] ?></td>
-						<td><?php echo $post['long_content'] ?></td>
-						<td><a href="/zerotype/post/publicPost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn chắc chắn muốn duyệt bài chứ?');"><i class="fas fa-check"></i></a></td>
-						<td><a href="/zerotype/post/deletePost.php?id=<?php echo $post['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
-                        </tr>
+						<td><?php echo $user['id'] ?></td>
+						<td><?php echo $user['username'] ?></td>
+						<td><?php echo $user['fullname'] ?></td>
+						<td><?php echo $user['gender'] ?></td>
+						<td><?php echo $user['favorite'] ?></td>
+						<td><?php echo $user['email'] ?></td>
+						<td><?php echo $user['role'] ?></td>
+						<td><a href="/zerotype/user/updateUser.php?id=<?php echo $user['id'] ?>" ><i class="fas fa-edit"></i></a></td>
+						<td><a href="/zerotype/category/deleteCategory.php?id=<?php echo $category['id'] ?>" onclick="return confirm('Bạn có muốn xóa không?');"><i class="fas fa-times"></i></a></td>
+					</tr>
 					<?php } ?>
 			</table>
-		<!-- </div> -->
-	<!-- </div> -->
-	<div id="footer">				
+	<div id="footer">
 		<div class="clearfix">
 			<div id="connect">
 				<a href="http://freewebsitetemplates.com/go/facebook/" target="_blank" class="facebook"></a><a href="http://freewebsitetemplates.com/go/googleplus/" target="_blank" class="googleplus"></a><a href="http://freewebsitetemplates.com/go/twitter/" target="_blank" class="twitter"></a><a href="http://www.freewebsitetemplates.com/misc/contact/" target="_blank" class="tumbler"></a>
