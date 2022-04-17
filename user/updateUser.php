@@ -93,7 +93,7 @@
             if(isset($_POST['submit'])){
                 include("../uploadfile.php");
                 $upload = new UploadFile();
-                $avatar = $upload->upload();
+                $avatar = $upload->upload("update");
                 if($avatar != null){
                     $query->updateAvatarByUserId($avatar,$_GET['id']);
                     header('Location: /zerotype/user/updateUser.php?id='.$_GET['id']);

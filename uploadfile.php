@@ -1,6 +1,6 @@
 <?php      
 class UploadFile{
-    public function upload(){
+    public function upload($choice){
         $file_type = $_FILES["file"]["type"];
         $file_size = $_FILES["file"]["size"];
         if(!($file_type == "image/jpeg") && !($file_type == "image/png")){
@@ -12,7 +12,10 @@ class UploadFile{
             return null;
         }
         global $query;
-        $file = move_uploaded_file($_FILES["file"]["tmp_name"],"../image/".$_FILES["file"]["name"]);
+        if($choice=="update")
+            $file = move_uploaded_file($_FILES["file"]["tmp_name"],"../image/".$_FILES["file"]["name"]);
+        else
+            $file = move_uploaded_file($_FILES["file"]["tmp_name"],"image/".$_FILES["file"]["name"]);
         return "image/".$_FILES["file"]["name"];
     }
 }

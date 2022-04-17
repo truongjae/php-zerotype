@@ -132,7 +132,7 @@
 					if(isset($_POST['xemphim'])) $favorite.='xemphim,';
 					if(isset($_POST['choigame'])) $favorite.='choigame,';
 					$favorite= substr($favorite,0, -1);
-					$avatar = $upload->upload();
+					$avatar = $upload->upload("register");
 					if($avatar != null){
 						$run = $query->register($_POST['email'],$_POST['username'],$_POST['password'],$_POST['fullname'],$_POST['gender'],$favorite,$avatar);
 						if($run != null)

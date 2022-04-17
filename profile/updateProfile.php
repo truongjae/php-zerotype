@@ -94,7 +94,7 @@
             if(isset($_POST['submit'])){
                 include("../uploadfile.php");
                 $upload = new UploadFile();
-                $avatar = $upload->upload();
+                $avatar = $upload->upload("update");
                 if($avatar != null){
                     $query->updateAvatar($avatar,$_COOKIE['username'],$_COOKIE['password']);
                     header('Location: updateProfile.php');

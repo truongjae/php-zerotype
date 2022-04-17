@@ -3,7 +3,7 @@ include('connect.php');
 include('sendemail.php');
 class AbstractQuery{
     public function convertShortContent($content){
-        return strlen($content) < 5 ? $content : substr($content,0,5)."...";
+        return strlen($content) < 4 ? $content : substr($content,0,4)."...";
     }
     public function INSERT($name,$email,$subject,$note){
         global $conn;
