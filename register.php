@@ -128,9 +128,9 @@
 					global $query;
 					global $upload;
 					$favorite = "";
-					if(isset($_POST['hoclaptrinh'])) $favorite.=$_POST['hoclaptrinh'].",";
-					if(isset($_POST['xemphim'])) $favorite.=$_POST['xemphim'].",";
-					if(isset($_POST['choigame'])) $favorite.=$_POST['choigame'].",";
+					if(isset($_POST['hoclaptrinh'])) $favorite.='hoclaptrinh,';
+					if(isset($_POST['xemphim'])) $favorite.='xemphim,';
+					if(isset($_POST['choigame'])) $favorite.='choigame,';
 					$favorite= substr($favorite,0, -1);
 					$avatar = $upload->upload();
 					if($avatar != null){
